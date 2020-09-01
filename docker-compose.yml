@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  se-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: space-engineers-dedicated-docker-linux
+    restart: unless-stopped
+    volumes:
+      - /appdata/space-engineers/World:/appdata/space-engineers/World
+      - /appdata/space-engineers/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated
+      - /appdata/space-engineers/steamcmd:/root/.steam
+      - /appdata/space-engineers/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg
+    stdin_open: true 
+    tty: true
+    ports:
+     - "27016:27016/udp"
