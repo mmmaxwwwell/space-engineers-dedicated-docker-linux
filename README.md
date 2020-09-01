@@ -28,10 +28,4 @@ Thank you to:
 
 ## Usage:
 ### Pull and run from dockerhub:
-```docker run mmmaxwwwell/space-engineers-dedicated-docker-linux --restart always -v /appdata/space-engineers/World:/appdata/space-engineers/World -v /appdata/space-engineers/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated -v /appdata/space-engineers/steamcmd:/root/.steam -v /appdata/space-engineers/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg -p "27016:27016/udp"
-
-### To build and start
-docker-compose build && docker-compose run se-server
-
-### To rebuild the entire container from scratch: 
-docker-compose build --no-cache && docker-compose run se-server
+```docker run mmmaxwwwell/space-engineers-dedicated-docker-linux --restart always -v /appdata/space-engineers/World:/appdata/space-engineers/World -v /appdata/space-engineers/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated -v /appdata/space-engineers/steamcmd:/root/.steam -v /appdata/space-engineers/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg -p "27016:27016/udp"```
