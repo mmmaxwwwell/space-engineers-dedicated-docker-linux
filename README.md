@@ -24,6 +24,7 @@ Thank you to:
   *  /appdata/space-engineers/SpaceEngineersDedicated
 * host machine port 27016 available for binding
 * ~8gb ram free
+* SpaceEngineers-Dedicated.cfg's \<LoadWorld\> tag should have " Z:\appdata\space-engineers\World" in it
 
 ## Usage:
 ### Pull and run from dockerhub:
