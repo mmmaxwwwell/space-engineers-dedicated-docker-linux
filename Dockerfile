@@ -31,5 +31,7 @@ RUN runuser -l space_engineers -c "cd && env WINEARCH=win64 WINEPREFIX=/home/spa
 COPY entrypoint.bash /entrypoint.bash
 COPY entrypoint-space_engineers.bash /entrypoint-space_engineers.bash
 RUN chown space_engineers /entrypoint-space_engineers.bash
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
-ENTRYPOINT /entrypoint.bash
+CMD /entrypoint.bash
