@@ -1,0 +1,10 @@
+#!/bin/bash
+mkdir -p appdata/space-engineers/bins/SpaceEngineersDedicated
+mkdir -p appdata/space-engineers/bins/steamcmd
+mkdir -p appdata/space-engineers/config/World
+if [ ! -f ./appdata/space-engineers/config/World/Sandbox.sbc ]; then
+    echo "World not found, initalizing empty star system..."
+    unzip -n star-system.zip -d ./appdata/space-engineers/config
+fi
+#sudo docker-compose up -d 
+#sudo docker-compose logs -f
