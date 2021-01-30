@@ -1,37 +1,46 @@
-# ============== build stage ==================
-FROM debian as builder
-
+FROM debian:buster
 WORKDIR /root
-RUN apt update && apt install wget -y
+RUN mkdir /scripts
 
-RUN wget 'https://raw.githubusercontent.com/7thCore/sesrv-script/master/sesrv-script.bash'
-RUN echo steam steam/question select "I AGREE" | debconf-set-selections && echo steam steam/license note '' | debconf-set-selections  && echo postfix postfix/mailname string 'your.hostname.com' | debconf-set-selections && echo postfix postfix/main_mailer_type string 'Internet Site'| debconf-set-selections
-ENV DEBIAN_FRONTEND=noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN=true
-RUN bash sesrv-script.bash -install_packages
+#add se user, install wine, winetricks, steamcmd, curl, xvfb and cabextract
+RUN \
+  dpkg --add-architecture i386 &&\
+  apt update && apt upgrade -y &&\
+  apt install curl gnupg2 software-properties-common -y &&\
+  curl https://dl.winehq.org/wine-builds/winehq.key | apt-key add - &&\
+  apt-add-repository https://dl.winehq.org/wine-builds/debian/ &&\
+  apt-add-repository non-free &&\
+  apt update &&\
+  curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10/i386/libfaudio0_20.01-0~buster_i386.deb > libfaudio0_20.01-0~buster_i386.deb &&\
+  curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10/amd64/libfaudio0_20.01-0~buster_amd64.deb > libfaudio0_20.01-0~buster_amd64.deb &&\
+  dpkg -i --force-depends libfaudio0_20.01-0~buster_i386.deb &&\
+  dpkg -i --force-depends libfaudio0_20.01-0~buster_amd64.deb &&\
+  apt install -f -y &&\
+  apt install --install-recommends winehq-stable -y &&\
+  rm *.deb &&\
+  echo steam steam/question select "I AGREE" | debconf-set-selections &&\
+  apt install steamcmd xvfb cabextract unzip -y &&\
+  apt purge software-properties-common gnupg2 python* -y &&\
+  apt autoclean &&\
+  apt autoremove -y &&\
+  curl -L https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks > /scripts/winetricks &&\
+  chmod +x /scripts/winetricks &&\
+  adduser se --disabled-password --gecos "" &&\
+  mkdir /wineprefix &&\
+  chown -R se:se /wineprefix 
 
-ENV TMPFS=n
-ENV SET_BETA_BRANCH_STATE=n
-ENV SCRIPT_UPDATE_CONFIG=n
-ENV POSTFIX_ENABLE=n
-ENV DISCORD_ENABLE=n
-RUN bash sesrv-script.bash -install 
-RUN apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
-
-RUN apt install --yes --allow-downgrades --install-recommends wine-staging-i386=5.9~buster && \
-    apt install --yes --allow-downgrades --install-recommends wine-staging-amd64=5.9~buster && \
-    apt install --yes --allow-downgrades --install-recommends wine-staging=5.9~buster && \
-    apt install --yes --allow-downgrades --install-recommends winehq-staging=5.9~buster
-
-# ============== runtime stage ================
-FROM builder as runtime
-
-RUN runuser -l space_engineers -c "cd && env WINEARCH=win64 WINEPREFIX=/home/space_engineers/server winetricks --force -q dotnet48"
-
+COPY install-winetricks /scripts/
+RUN chmod +x /scripts/install-winetricks
+WORKDIR /scripts
+RUN runuser se bash -c ./install-winetricks
+RUN \
+  mkdir -p /appdata/space-engineers/bin &&\
+  mkdir -p /appdata/space-engineers/config
 COPY entrypoint.bash /entrypoint.bash
 COPY entrypoint-space_engineers.bash /entrypoint-space_engineers.bash
-RUN chown space_engineers /entrypoint-space_engineers.bash
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
+RUN chown se /entrypoint-space_engineers.bash
 
 CMD /entrypoint.bash
+
+  
+
