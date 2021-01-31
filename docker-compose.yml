@@ -2,8 +2,7 @@ version: '3'
 
 services:
   se-server:
-    build: .
-    #image: mmmaxwwwell/space-engineers-dedicated-docker-linux:wine6
+    image: mmmaxwwwell/space-engineers-dedicated-docker-linux:wine6
     container_name: space-engineers-dedicated-docker-linux
     restart: unless-stopped
     volumes:
