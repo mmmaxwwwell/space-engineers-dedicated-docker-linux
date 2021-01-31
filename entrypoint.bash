@@ -24,5 +24,8 @@ cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cf
 #set game port to the correct value
 #cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg | sed -E '/.*ServerPort.*/c\  <ServerPort>27016</ServerPort>' > /tmp/SpaceEngineers-Dedicated.cfg && cat /tmp/SpaceEngineers-Dedicated.cfg > /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg
 
+#configure plugins section in SpaceEngineers-Dedicated.cfg
+PLUGINS=$(ls -1 /appdata/space-engineers/Plugins/*.dll)
+
 runuser -l se bash -c 'steamcmd +login anonymous +@sSteamCmdForcePlatformType windows +force_install_dir /appdata/space-engineers/SpaceEngineersDedicated +app_update 298740 +quit'
 runuser -l se bash -c '/entrypoint-space_engineers.bash'
