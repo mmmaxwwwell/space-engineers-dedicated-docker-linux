@@ -43,12 +43,6 @@ docker run --restart always -p "27016:27016/udp" \
   mmmaxwwwell/space-engineers-dedicated-docker-linux:wine6 
 ```
 
-### Build and run with docker-compose:
-* Clone this repo
-* Comment out ```image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest``` in docker-compose.yml
-* Uncomment ```build: .``` in docker-compose.yml
-* Run ```sudo docker-compose build && sudo docker-compose up```
-
 ## Exit Codes:
 | Exit Code | Reason |
 | - | - |
