@@ -6,6 +6,7 @@ All of the space engineers dedicated server on wine containers I found wouldn't 
 * Debian Buster
 * Installs default star system world on first run
 * Automatically updates ```<LoadWorld>``` element in ```SpaceEngineers-Dedicated.cfg```
+* Supports plugins.
 * Image built and [available on dockerhub](https://hub.docker.com/r/mmmaxwwwell/space-engineers-dedicated-docker-linux)
 * Easy to implement offsite backups, just copy everything in ```./appdata/space-engineers/config``` with your favorite backup tool.
 * Reduced container size (~4gb decompressed)
@@ -22,6 +23,7 @@ Thank you to:
 ## Tips:
 * You can copy the entire contents of ./appdata/space-engineers/config to make a backup, including the SpaceEngineers-Dedicated.cfg file.
 * The ```./start``` script will start the server using docker-compose in detached mode, and then attaches to the log output. You can press <kbd>ctrl</kbd>+<kbd>c</kbd> to detach from the logs and keep the server running.
+* If you are running plugins, the first time your run this, check your SpaceEngineers-Dedicated.cfg file for the Plugins element. If it spans multiple lines, you must replace it with ```<Plugins />```, exactly like that. The server will query ./appdata/space-engineers/config/Plugins and update the config file as needed from then on.
 
 ## Usage:
 
