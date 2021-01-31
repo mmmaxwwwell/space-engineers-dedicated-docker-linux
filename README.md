@@ -8,7 +8,7 @@ All of the space engineers dedicated server on wine containers I found wouldn't 
 * Automatically updates ```<LoadWorld>``` element in ```SpaceEngineers-Dedicated.cfg```
 * Image built and [available on dockerhub](https://hub.docker.com/r/mmmaxwwwell/space-engineers-dedicated-docker-linux)
 * Easy to implement offsite backups, just copy everything in ```./appdata/space-engineers/config``` with your favorite backup tool.
-* Reduced container size (~4gb)
+* Reduced container size (~4gb decompressed)
 
 Thank you to:
 * [7thCore](https://github.com/7thCore) for [7thCore/sesrv-script](https://github.com/7thCore/sesrv-script)
@@ -20,8 +20,8 @@ Thank you to:
 * docker-compose (recommended, not required to run container)
 
 ## Tips:
-* You can copy the entire contents of ./appdata/space-engineers/config to make a backup, including the SpaceEngineers-Dedicated.cfg file
-* The ```./start``` script will start the server using docker-compose in detached mode, and then attach to the log output. You can press <kbd>ctrl</kbd>+<kbd>c</kbd> to detach from the logs and keep the server running.
+* You can copy the entire contents of ./appdata/space-engineers/config to make a backup, including the SpaceEngineers-Dedicated.cfg file.
+* The ```./start``` script will start the server using docker-compose in detached mode, and then attaches to the log output. You can press <kbd>ctrl</kbd>+<kbd>c</kbd> to detach from the logs and keep the server running.
 
 ## Usage:
 
@@ -29,10 +29,19 @@ Thank you to:
 
 * Clone this repo with ```git clone https://github.com/mmmaxwwwell/space-engineers-dedicated-docker-linux.git```.
 * Change directory into the cloned repo with ```cd space-engineers-dedicated-docker-linux```.
-* Run the start script with ```./start```. This will initalize the ./appdata folder, unzip an empty star system from star-system.zip and start the server.
+* Run the start script with ```./start```. This will initialize the ./appdata folder, unzip an empty star system from star-system.zip and start the server.
 
 ### Pull and run from dockerhub without docker-compose:
-```docker run mmmaxwwwell/space-engineers-dedicated-docker-linux --restart always -v ./appdata/space-engineers/config/World:/appdata/space-engineers/config/World -v ./appdata/space-engineers/bins/SpaceEngineersDedicated:/appdata/space-engineers/bins/SpaceEngineersDedicated -v ./appdata/space-engineers/bins/steamcmd:/home/se/.steam -v ./appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/bins/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg -p "27016:27016/udp"```
+From this directory run :
+
+``` 
+docker run --restart always -p "27016:27016/udp" \
+  -v $(pwd)/appdata/space-engineers/config/World:/appdata/space-engineers/World\
+  -v $(pwd)/appdata/space-engineers/bins/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated\
+  -v $(pwd)/appdata/space-engineers/bins/steamcmd:/home/se/.steam\
+  -v $(pwd)/appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg\
+  mmmaxwwwell/space-engineers-dedicated-docker-linux:wine6 
+```
 
 ### Build and run with docker-compose:
 * Clone this repo
@@ -40,3 +49,9 @@ Thank you to:
 * Uncomment ```build: .``` in docker-compose.yml
 * Run ```sudo docker-compose build && sudo docker-compose up```
 
+## Exit Codes:
+| Exit Code | Reason |
+| - | - |
+| 129 | Container is missing /appdata/space-engineers/World folder, volume mounts are mounted incorrectly. |
+| 130 | Container is missing /appdata/space-engineers/World/Sandbox.sbc, World is not placed in the right folder, or the volume mounts are mounted incorrectly. Ensure your world is in ```./appdata/space-engineers/config/World/```.|
+| 131 | Container is missing the dedicated server config file SpaceEngineers-Dedicated.cfg. Ensure that you have placed SpaceEngineers-Dedicated.cfg at ```./appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg```. |
