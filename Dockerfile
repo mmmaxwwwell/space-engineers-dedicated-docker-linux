@@ -1,7 +1,10 @@
 FROM mmmaxwwwell/wine6:latest
 
 COPY install-winetricks /scripts/
-RUN chmod +x /scripts/install-winetricks
+RUN \
+  mkdir /wineprefix &&\
+  chown -R wine:wine /wineprefix &&\
+  chmod +x /scripts/install-winetricks
 WORKDIR /scripts
 RUN runuser wine bash -c ./install-winetricks
 RUN \
