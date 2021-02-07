@@ -9,7 +9,7 @@ All of the space engineers dedicated server on wine containers I found wouldn't 
 * Supports plugins.
 * Image built and [available on dockerhub](https://hub.docker.com/r/mmmaxwwwell/space-engineers-dedicated-docker-linux)
 * Easy to implement offsite backups, just copy everything in ```./appdata/space-engineers/config``` with your favorite backup tool.
-* Reduced container size (~4gb decompressed)
+* Reduced container size (~4gb decompressed).
 
 Thank you to:
 * [7thCore](https://github.com/7thCore) for [7thCore/sesrv-script](https://github.com/7thCore/sesrv-script)
