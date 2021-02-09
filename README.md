@@ -19,6 +19,7 @@ Thank you to:
 ## Prerequisites:
 * docker
 * docker-compose (recommended, not required to run container)
+* unzip
 
 ## Tips:
 * You can copy the entire contents of ./appdata/space-engineers/config to make a backup, including the SpaceEngineers-Dedicated.cfg file.
