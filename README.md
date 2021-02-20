@@ -43,7 +43,7 @@ docker run --restart always -p "27016:27016/udp" \
   -v $(pwd)/appdata/space-engineers/bins/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated\
   -v $(pwd)/appdata/space-engineers/bins/steamcmd:/home/se/.steam\
   -v $(pwd)/appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg\
-  mmmaxwwwell/space-engineers-dedicated-docker-linux:wine6 
+  mmmaxwwwell/space-engineers-dedicated-docker-linux:latest 
 ```
 
 ## Exit Codes:
