@@ -46,6 +46,18 @@ cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cf
 # sed can't handle multiple lines easily, so everything needs to be on a single line.
 cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg | sed -E "$SED_EXPRESSION_FULL" > /tmp/SpaceEngineers-Dedicated.cfg && cat /tmp/SpaceEngineers-Dedicated.cfg > /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg
 
+#check if the owner of the appdata folder exists, and if they don't, create them.
+TARGET_UID=$(ls -nd /appdata | awk '{ print $3 }')
+TARGET_GID=$(ls -nd /wineprefix | awk '{ print $4 }')
+TARGET_USER=`id -nu $TARGET_UID`
+if [ -z "$TARGET_UID" ]; then
+  useradd sededicated -u $TARGET_UID -g $TARGET_GID -M -s /bin/bash
+  TARGET_USER=sededicated
+fi
 
-runuser -l wine bash -c 'steamcmd +login anonymous +@sSteamCmdForcePlatformType windows +force_install_dir /appdata/space-engineers/SpaceEngineersDedicated +app_update 298740 +quit'
-runuser -l wine bash -c '/entrypoint-space_engineers.bash'
+echo "Starting Space Engineers Dedicated Server with user: $TARGET_USER uid $TARGET_uID gid $TARGET_GID"
+
+chown $TARGET_USER /wineprefix
+
+runuser -l $TARGET_USER bash -c '/usr/games/steamcmd +login anonymous +@sSteamCmdForcePlatformType windows +force_install_dir /appdata/space-engineers/SpaceEngineersDedicated +app_update 298740 +quit'
+runuser -l $TARGET_USER bash -c '/entrypoint-space_engineers.bash'

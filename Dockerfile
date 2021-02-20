@@ -16,5 +16,10 @@ RUN chmod +x /entrypoint.bash && chmod +x /entrypoint-space_engineers.bash
 
 CMD /entrypoint.bash
 
+HEALTHCHECK \
+  --interval=15s \
+  --timeout=3s \
+  CMD pgrep -l SpaceEngineer
+
   
 
