@@ -5,6 +5,7 @@ RUN \
   mkdir /wineprefix &&\
   chown -R wine:wine /wineprefix &&\
   chmod +x /scripts/install-winetricks
+
 WORKDIR /scripts
 RUN runuser wine bash -c ./install-winetricks
 RUN \
@@ -13,13 +14,15 @@ RUN \
 COPY entrypoint.bash /entrypoint.bash
 COPY entrypoint-space_engineers.bash /entrypoint-space_engineers.bash
 RUN chmod +x /entrypoint.bash && chmod +x /entrypoint-space_engineers.bash
-
 CMD /entrypoint.bash
 
-HEALTHCHECK \
-  --interval=15s \
-  --timeout=3s \
-  CMD pgrep -l SpaceEngineer
+# RUN apt install net-tools -y
+# HEALTHCHECK \
+#   --interval=1s \
+#   --timeout=3s \
+#   --start-period=5m \
+#   --retries=1 \
+#   CMD netstat -an | grep 27016 
 
   
 
