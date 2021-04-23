@@ -1,6 +1,6 @@
 #!/bin/bash
 
-runuser -l wine bash -c 'env WINEARCH=win64 WINEDEBUG=-all WINEPREFIX=/wineprefix wine /LocaleTest.exe'
+runuser -l wine bash -c 'env WINEARCH=win64 WINEPREFIX=/wineprefix wine /LocaleTest.exe'
 
 # # #check if /appdata/space-engineers/config/World is a folder
 # if [ ! -d "/appdata/space-engineers/World" ]; then
