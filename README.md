@@ -1,4 +1,12 @@
 # [mmmaxwwwell/space-engineers-dedicated-docker-linux](https://github.com/mmmaxwwwell/space-engineers-dedicated-docker-linux)
+
+## <center> **This container is currently broken** </center>
+## <center> Keen released an update that depends on a syscall not implemented in wine. Please see [this comment](https://github.com/mmmaxwwwell/space-engineers-dedicated-docker-linux/issues/11#issuecomment-825316220) for more info. </center>
+
+## <center> If you use this container, please go to [this issue on keen's support site](https://support.keenswh.com/spaceengineers/pc/topic/v1-198-getgeoinfo-analytics-causes-crash-with-proton) and click the "I have the same bug" button. </center>
+
+<hr>
+
 All of the space engineers dedicated server on wine containers I found wouldn't build, and I embarked on a journey to create my own.
 
 ## Features:
