@@ -26,6 +26,7 @@ Thank you to:
 * You can copy the entire contents of ./appdata/space-engineers/config to make a backup, including the SpaceEngineers-Dedicated.cfg file.
 * The ```./start``` script will start the server using docker-compose in detached mode, and then attaches to the log output. You can press <kbd>ctrl</kbd>+<kbd>c</kbd> to detach from the logs and keep the server running.
 * If you are running plugins, the first time your run this, check your SpaceEngineers-Dedicated.cfg file for the Plugins element. If it spans multiple lines, you must replace it with ```<Plugins />```, exactly like that. The server will query ./appdata/space-engineers/config/Plugins and update the config file as needed from then on.
+* If you start the docker container without placing SpaceEngineers-Dedicated.cfg in the correct location, docker will create an empty folder where it should be. The container won't run until you stop the container, delete the empty SpaceEngineers-Dedicated.cfg folder, and replace it with the actual file.
 
 ## Usage:
 
