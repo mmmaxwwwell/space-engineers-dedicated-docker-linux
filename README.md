@@ -15,7 +15,9 @@ All of the space engineers dedicated server on wine containers I found wouldn't 
 Thank you to:
 * [7thCore](https://github.com/7thCore) for [7thCore/sesrv-script](https://github.com/7thCore/sesrv-script)
 * [Devidian](https://github.com/Devidian) for advancing the docker implementation to a working state!
-* @Tsu, @Aedis, @ebbit, @data, @ReAn, @BloodyIron, @Inflex, @spawnAjak
+* @Inflex for 
+* @Tsu, @Aedis, @ebbit, @data, @ReAn, @BloodyIron, @spawnAjak for all around helping when testing and getting this started
+* [@UseAfterFreee](https://github.com/UseAfterFreee), [@woeisme](https:/github.com/woeisme), [@kennethx](https://github.com/kennethx), [@MarkL4YG](https://github.com/MarkL4YG), [@BaIthamel](https://github.com/BaIthamel), [@Tetrino](https://github.com/Tetrino), [@Teacay1](https://github.com/Teacay1), [@Fischchen](https://github.com/Fischchen), [@whodat](https://github.com/whodat), [@msansen](https://github.com/msansen), [@IndexOutOfMJ](https://github.com/IndexOutOfMJ) for opening issues or contributing to an issue conversation that improved the repo.
 
 ## Prerequisites:
 * docker
