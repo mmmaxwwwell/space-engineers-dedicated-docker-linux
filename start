@@ -9,7 +9,8 @@ if [ ! -f ./appdata/space-engineers/config/World/Sandbox.sbc ]; then
 fi
 
 #container executes server as 1000:1000
-if [ "$UID" != "1000" ]; then
+if [ "$(stat -c '%u' appdata)" != "1000" ]; then
+    echo "Setting owner of appdata to UID 1000"
     sudo chown -R 1000:1000 appdata
 fi
 
