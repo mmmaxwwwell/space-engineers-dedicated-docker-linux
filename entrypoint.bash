@@ -27,7 +27,7 @@ cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cf
 #configure plugins section in SpaceEngineers-Dedicated.cfg
 #get new plugins string
 
-if [ "$(ls -1 /appdata/space-engineers/Plugins/*.dll | wc -l)" -gt "0" ]; then
+if [ "$(ls -1 /appdata/space-engineers/Plugins/*.dll 2>/dev/null | wc -l)" -gt "0" ]; then
   PLUGINS_STRING=$(ls -1 /appdata/space-engineers/Plugins/*.dll |\
   awk '{ print "<string>" $0 "</string>" }' |\
   tr -d '\n' |\
