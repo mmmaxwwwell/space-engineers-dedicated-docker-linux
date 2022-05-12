@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DATE=`date +"%Y-%m-%d-%H%M%S"`
+BACKUP_NAME="$DATE-world.tar.bz2"
+tar -cjvf $BACKUP_NAME appdata/space-engineers/config 
