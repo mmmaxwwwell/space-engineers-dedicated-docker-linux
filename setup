@@ -1,0 +1,15 @@
+#!/bin/bash
+sudo mkdir -p appdata/space-engineers/bins/SpaceEngineersDedicated
+sudo mkdir -p appdata/space-engineers/bins/steamcmd
+sudo mkdir -p appdata/space-engineers/config/World
+sudo mkdir -p appdata/space-engineers/config/Plugins
+
+#Unzip the empty world
+sudo unzip -n star-system.zip -d ./appdata/space-engineers/config
+
+#Take ownership of the appdata folder
+sudo chown -R 1000:$USER appdata
+
+#Add the current user to the docker group, if not already present
+sudo gpasswd -a $USER docker
+
