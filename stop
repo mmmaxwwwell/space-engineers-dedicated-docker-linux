@@ -1,2 +1,2 @@
 #/bin/bash
-sudo docker-compose stop
+docker-compose stop

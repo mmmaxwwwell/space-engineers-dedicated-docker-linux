@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+  echo "Usage: setup <username that runs the space engineers server>"
+  exit
+fi
+
+if id "$1" &>/dev/null; then
+    echo "User $1 found."
+else
+    echo "User $1 not found.  Please enter a valid user or create the user."
+    echo "Example: sudo adduser $1"
+    exit
+fi
+
+USERNAME=$1
+
+echo "Setting up space engineers for user: $USERNAME"
+
+sudo mkdir -p appdata/space-engineers/bins/SpaceEngineersDedicated
+sudo mkdir -p appdata/space-engineers/bins/steamcmd
+sudo mkdir -p appdata/space-engineers/config/World
+sudo mkdir -p appdata/space-engineers/config/Plugins
+
+#Unzip the empty world if there's not already a world present
+if [ ! -f ./appdata/space-engineers/config/World/Sandbox.sbc ]; then
+    echo "World not found, initalizing empty star system..."
+    sudo unzip -n star-system.zip -d ./appdata/space-engineers/config
+fi
+
+#Take ownership of the appdata folder
+sudo chown -R $USERNAME:$USERNAME .
+sudo chown -R 1000:$USERNAME appdata
+
+#Add the user to the docker group, if not already present
+sudo gpasswd -a $USERNAME docker
+

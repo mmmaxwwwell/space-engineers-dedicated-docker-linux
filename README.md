@@ -17,7 +17,7 @@ Thank you to:
 * [Devidian](https://github.com/Devidian) for advancing the docker implementation to a working state!
 * @Inflex for 
 * @Tsu, @Aedis, @ebbit, @data, @ReAn, @BloodyIron, @spawnAjak for all around helping when testing and getting this started
-* [@UseAfterFreee](https://github.com/UseAfterFreee), [@woeisme](https:/github.com/woeisme), [@kennethx](https://github.com/kennethx), [@MarkL4YG](https://github.com/MarkL4YG), [@BaIthamel](https://github.com/BaIthamel), [@Tetrino](https://github.com/Tetrino), [@Teacay1](https://github.com/Teacay1), [@Fischchen](https://github.com/Fischchen), [@whodat](https://github.com/whodat), [@msansen](https://github.com/msansen), [@IndexOutOfMJ](https://github.com/IndexOutOfMJ) for opening issues or contributing to an issue conversation that improved the repo.
+* [@UseAfterFreee](https://github.com/UseAfterFreee), [@woeisme](https:/github.com/woeisme), [@kennethx](https://github.com/kennethx), [@MarkL4YG](https://github.com/MarkL4YG), [@BaIthamel](https://github.com/BaIthamel), [@Tetrino](https://github.com/Tetrino), [@Teacay1](https://github.com/Teacay1), [@Fischchen](https://github.com/Fischchen), [@whodat](https://github.com/whodat), [@msansen](https://github.com/msansen), [@IndexOutOfMJ](https://github.com/IndexOutOfMJ), [@Lothsahn](https://github.com/lothsahn) for opening issues or contributing to an issue conversation that improved the repo.
 
 ## Prerequisites:
 * docker
@@ -34,9 +34,14 @@ Thank you to:
 
 ### -RECOMENDED- Pull from dockerhub and run with docker-compose
 
+* Open up a command prompt.  Note: You must have sudo access.
+* Create a user and group you want to run your space engineers server ```sudo adduser <username>```.  Note:  You can use an existing user on your system, but it's recommended to use a separate, dedicated user for maximum security.
 * Clone this repo with ```git clone https://github.com/mmmaxwwwell/space-engineers-dedicated-docker-linux.git```.
 * Change directory into the cloned repo with ```cd space-engineers-dedicated-docker-linux```.
-* Run the start script with ```./start```. This will initialize the ./appdata folder, unzip an empty star system from star-system.zip and start the server.
+* Run the setup script with ```./setup <username from step 2>```.  This will initialize the ./appdata folder, unzip an empty star system from star-system.zip and set the permissions for the docker user to run.
+* (Optional) Copy your world data into the space-engineers-dedicated-docker-linux/appdata/space-engineers/config folder
+* If you copied in world data, rerun the ```./setup <username from step 2>``` command to reset the permissions.
+* Login as the user from step 2 and run the start script with ```./start```. This will start the server.
 
 ### Pull and run from dockerhub without docker-compose:
 From this directory run :
