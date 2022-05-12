@@ -9,6 +9,7 @@ if id "$1" &>/dev/null; then
     echo "User $1 found."
 else
     echo "User $1 not found.  Please enter a valid user or create the user."
+    echo "Example: sudo adduser $1"
     exit
 fi
 
