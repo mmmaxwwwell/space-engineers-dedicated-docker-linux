@@ -34,12 +34,14 @@ Thank you to:
 
 ### -RECOMENDED- Pull from dockerhub and run with docker-compose
 
-* Create or login as the user you want to run your space engineers server.  Recommended: Use a separate, dedicated, contained user.
+* Open up a command prompt.  Note: You must have sudo access.
+* Create a user and group you want to run your space engineers server ```sudo adduser <username>```.  Note:  You can use an existing user on your system, but it's recommended to use a separate, dedicated user for maximum security.
 * Clone this repo with ```git clone https://github.com/mmmaxwwwell/space-engineers-dedicated-docker-linux.git```.
 * Change directory into the cloned repo with ```cd space-engineers-dedicated-docker-linux```.
-* Run the setup script with ```./setup```.  This will initialize the ./appdata folder, unzip an empty star system from star-system.zip and set the permissions for the docker user to run.
+* Run the setup script with ```./setup <username from step 2>```.  This will initialize the ./appdata folder, unzip an empty star system from star-system.zip and set the permissions for the docker user to run.
 * (Optional) Copy your world data into the space-engineers-dedicated-docker-linux/appdata/space-engineers/config folder
-* Run the start script with ```./start```. This will start the server.
+* If you copied in world data, rerun the ```./setup <username from step 2>``` command to reset the permissions.
+* Login as the user from step 2 and run the start script with ```./start```. This will start the server.
 
 ### Pull and run from dockerhub without docker-compose:
 From this directory run :
