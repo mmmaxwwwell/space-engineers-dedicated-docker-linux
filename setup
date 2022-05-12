@@ -28,6 +28,7 @@ if [ ! -f ./appdata/space-engineers/config/World/Sandbox.sbc ]; then
 fi
 
 #Take ownership of the appdata folder
+sudo chown -R $USERNAME:$USERNAME .
 sudo chown -R 1000:$USERNAME appdata
 
 #Add the user to the docker group, if not already present
