@@ -2,6 +2,10 @@ version: '3'
 
 services:
   se-server:
+    ulimits:
+      nofile:
+        soft: 20000
+        hard: 40000
     image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest
     container_name: space-engineers-dedicated-docker-linux
     restart: unless-stopped
