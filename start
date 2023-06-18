@@ -1,18 +1,8 @@
 #!/bin/bash
-sudo mkdir -p appdata/space-engineers/bins/SpaceEngineersDedicated
-sudo mkdir -p appdata/space-engineers/bins/steamcmd
-sudo mkdir -p appdata/space-engineers/config/World
-sudo mkdir -p appdata/space-engineers/config/Plugins
-if [ ! -f ./appdata/space-engineers/config/World/Sandbox.sbc ]; then
-    echo "World not found, initalizing empty star system..."
-    sudo unzip -n star-system.zip -d ./appdata/space-engineers/config
+if [ ! -d ./appdata ]; then
+    echo "appdata directory is not present, please run ./setup first."
+    exit 1
 fi
 
-#container executes server as 1000:1000
-if [ "$(stat -c '%u' appdata)" != "1000" ]; then
-    echo "Setting owner of appdata to UID 1000"
-    sudo chown -R 1000:1000 appdata
-fi
-
-sudo docker-compose up -d 
-sudo docker-compose logs -f
+docker-compose up -d 
+docker-compose logs -f

@@ -26,16 +26,16 @@ cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cf
 
 #configure plugins section in SpaceEngineers-Dedicated.cfg
 #get new plugins string
-
-if [ "$(ls -1 /appdata/space-engineers/Plugins/*.dll | wc -l)" -gt "0" ]; then
-  PLUGINS_STRING=$(ls -1 /appdata/space-engineers/Plugins/*.dll |\
-  awk '{ print "<string>" $0 "</string>" }' |\
-  tr -d '\n' |\
-  awk '{ print "<Plugins>" $0 "</Plugins>" }' )
-else
-  PLUGINS_STRING="<Plugins />"
+if [ -d "appdata/space-engineers/Plugins/" ]; then
+  if [ "$(find appdata/space-engineers/Plugins/ -name *.dll | wc -l)" -gt "0" ]; then
+    PLUGINS_STRING=$(ls -1 /appdata/space-engineers/Plugins/*.dll |\
+    awk '{ print "<string>" $0 "</string>" }' |\
+    tr -d '\n' |\
+    awk '{ print "<Plugins>" $0 "</Plugins>" }' )
+  else
+    PLUGINS_STRING="<Plugins />"
+  fi
 fi
-
 SED_EXPRESSION_EMPTY="s/<Plugins \/>/${PLUGINS_STRING////\\/} /g"
 SED_EXPRESSION_FULL="s/<Plugins>.*<\/Plugins>/${PLUGINS_STRING////\\/} /g"
 
@@ -47,5 +47,5 @@ cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cf
 cat /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg | sed -E "$SED_EXPRESSION_FULL" > /tmp/SpaceEngineers-Dedicated.cfg && cat /tmp/SpaceEngineers-Dedicated.cfg > /appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg
 
 
-runuser -l wine bash -c 'steamcmd +login anonymous +@sSteamCmdForcePlatformType windows +force_install_dir /appdata/space-engineers/SpaceEngineersDedicated +app_update 298740 +quit'
+runuser -l wine bash -c 'steamcmd +force_install_dir /appdata/space-engineers/SpaceEngineersDedicated +login anonymous +@sSteamCmdForcePlatformType windows +app_update 298740 +quit'
 runuser -l wine bash -c '/entrypoint-space_engineers.bash'

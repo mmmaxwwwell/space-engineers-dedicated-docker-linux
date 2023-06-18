@@ -2,7 +2,7 @@ version: '3'
 
 services:
   se-server:
-    image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest
+    image: xcoldfyrex/space-engineers-dedicated-docker-linux:latest
     container_name: space-engineers-dedicated-docker-linux
     restart: unless-stopped
     volumes:
