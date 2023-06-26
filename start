@@ -1,6 +1,16 @@
 #!/bin/bash
 if [ ! -d ./appdata ]; then
-    echo "appdata directory is not present, please run ./setup first."
+    echo "ERROR: appdata directory is not present, please run ./setup first."
+    exit 1
+fi
+
+if [ ! `stat -c '%u' appdata/space-engineers/config/World` -eq 1000 ]; then
+    echo "ERROR: appdata/space-engineers/config/World directory has wrong permissions. Please ensure owner uid is set to 1000"
+    exit 1
+fi
+
+if [ ! `stat -c '%u' appdata/space-engineers/config/World/* | grep -v 1000 | wc -l` -eq 0 ]; then
+    echo "ERROR: one of more files in appdata/space-engineers/config/World/ directory has wrong permissions. Please ensure owner uid is set to 1000"
     exit 1
 fi
 
