@@ -6,14 +6,18 @@ services:
       nofile:
         soft: 20000
         hard: 40000
-    image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest
+    # image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest
+    build: .
     container_name: space-engineers-dedicated-docker-linux
     restart: unless-stopped
     volumes:
-      - ./appdata/space-engineers/config/World:/appdata/space-engineers/World
-      - ./appdata/space-engineers/config/Plugins:/appdata/space-engineers/Plugins
-      - ./appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg
-      - ./appdata/space-engineers/bins/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated
-      - ./appdata/space-engineers/bins/steamcmd:/home/wine/.steam
-    ports:
-     - "27016:27016/udp"
+      - world:/appdata/space-engineers/World
+      - plugins:/appdata/space-engineers/Plugins
+      - bins:/appdata/space-engineers/SpaceEngineersDedicated
+      # - steamcmd:/home/wine/.steam
+    network: host
+volumes: 
+  world:
+  plugins:
+  bins:
+  steamcmd:

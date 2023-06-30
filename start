@@ -1,8 +1,23 @@
-#!/bin/bash
-if [ ! -d ./appdata ]; then
+#!/usr/bin/env sh
+WORLD_VOLUME_NAME=space-engineers-dedicated-docker-linux_world
+
+if which podman > /dev/null; then
+    DOCKER_COMMAND=podman
+    #echo "found podman installed, using podman"
+elif which docker > /dev/null; then
+    #echo "found docker installed, using docker"
+    DOCKER_COMMAND=docker
+else
+    echo "Podman or docker not found, exiting"
+    exit 1
+fi
+
+if $DOCKER_COMMAND volume ls | grep $WORLD_VOLUME_NAME > /dev/null; then
+    echo "Found existing world volume $WORLD_VOLUME_NAME."
+else
     echo "appdata directory is not present, please run ./setup first."
     exit 1
 fi
 
-docker-compose up -d 
-docker-compose logs -f
+$DOCKER_COMMAND-compose up -d 
+$DOCKER_COMMAND-compose logs -f

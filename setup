@@ -1,37 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env sh
+WORLD_VOLUME_NAME=space-engineers-dedicated-docker-linux_world
 
-if [ "$1" == "" ]; then
-  echo "Usage: setup <username that runs the space engineers server>"
-  exit
-fi
-
-if id "$1" &>/dev/null; then
-    echo "User $1 found."
+if which podman > /dev/null; then
+    DOCKER_COMMAND=podman
+    #echo "found podman installed, using podman"
+elif which docker > /dev/null; then
+    #echo "found docker installed, using docker"
+    DOCKER_COMMAND=docker
 else
-    echo "User $1 not found.  Please enter a valid user or create the user."
-    echo "Example: sudo adduser $1"
-    exit
+    echo "Podman or docker not found, exiting"
+    exit 1
 fi
 
-USERNAME=$1
-
-echo "Setting up space engineers for user: $USERNAME"
-
-sudo mkdir -p appdata/space-engineers/bins/SpaceEngineersDedicated
-sudo mkdir -p appdata/space-engineers/bins/steamcmd
-sudo mkdir -p appdata/space-engineers/config/World
-sudo mkdir -p appdata/space-engineers/config/Plugins
-
-#Unzip the empty world if there's not already a world present
-if [ ! -f ./appdata/space-engineers/config/World/Sandbox.sbc ]; then
-    echo "World not found, initalizing empty star system..."
-    sudo unzip -n star-system.zip -d ./appdata/space-engineers/config
+if $DOCKER_COMMAND volume ls | grep $WORLD_VOLUME_NAME > /dev/null; then
+    echo "Found existing world volume $WORLD_VOLUME_NAME. I don't want to destroy your world, exiting."
+    exit 2
+else
+    echo "didn't find an existing world volume"
 fi
 
-#Take ownership of the appdata folder
-sudo chown -R $USERNAME:$USERNAME .
-sudo chown -R 1000:$USERNAME appdata
-sudo chmod g+w -R .
 
-#Add the user to the docker group, if not already present
-sudo gpasswd -a $USERNAME docker
+$DOCKER_COMMAND volume create $WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/world -v ./star-system.zip:/star-system.zip alpine unzip -n /star-system.zip -d world
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/world alpine chown -R 1000:1000 /world

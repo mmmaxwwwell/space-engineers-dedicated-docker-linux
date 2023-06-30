@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+podman ps | awk '{ print $1 }' | sed 1d | xargs podman container rm --force
+docker volume ls | awk '{ print $2 }' | sed 1d | xargs docker volume rm --force
