@@ -14,8 +14,10 @@ services:
       - world:/appdata/space-engineers/World
       - plugins:/appdata/space-engineers/Plugins
       - bins:/appdata/space-engineers/SpaceEngineersDedicated
-      - steamcmd:/home/wine/Steam
-    network: host
+      - steamcmd:/home/wine
+    ports:
+      - 27016:27016/udp
+    # network_mode: host
 volumes: 
   world:
   plugins:
