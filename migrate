@@ -9,10 +9,22 @@ if $DOCKER_COMMAND volume ls | grep $WORLD_VOLUME_NAME > /dev/null; then
 fi
 
 $DOCKER_COMMAND volume create $WORLD_VOLUME_NAME
-$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output -v ./appdata/space-engineers/config:/input alpine cp /input/SpaceEngineers-Dedicated.cfg /output
-$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output -v ./appdata/space-engineers/config:/input alpine cp -r /input/World /output
-$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output alpine chown -R 1000:1000 /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME -v ./appdata/space-engineers/config:/input alpine cp /input/SpaceEngineers-Dedicated.cfg /$WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME -v ./appdata/space-engineers/config:/input alpine cp -r /input/World /$WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME alpine chown -R 1000:1000 /$WORLD_VOLUME_NAME
 
 $DOCKER_COMMAND volume create $PLUGINS_VOLUME_NAME
-$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/output -v ./appdata/space-engineers/config:/input alpine cp -r /input/Plugins /output
-$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/output alpine chown -R 1000:1000 /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME -v ./appdata/space-engineers/config:/input alpine cp -r /input/Plugins/. /$PLUGINS_VOLUME_NAME/
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME alpine chown -R 1000:1000 /$PLUGINS_VOLUME_NAME
+
+./backup
+
+echo "Migration and backup should be complete, please check for errors and remove the appdata folder."
+echo "Please verify:"
+echo "1. The 'backup-data' folder has a new zip in it."
+echo "2. The new zip in backup-data has your world file."
+echo "3. The dedicated server starts successfully."
+echo "4. The dedicated server has your world in it."
+echo "5. You can add some blocks, save the server, restart it, and the blocks are still there."
+echo ""
+echo "If you have verified 1-5, it should be safe to remove the appdata folder."
