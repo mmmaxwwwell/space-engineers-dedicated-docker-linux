@@ -14,7 +14,7 @@ services:
       - world:/appdata/space-engineers/World
       - plugins:/appdata/space-engineers/Plugins
       - bins:/appdata/space-engineers/SpaceEngineersDedicated
-      # - steamcmd:/home/wine/.steam
+      - steamcmd:/home/wine
     network: host
 volumes: 
   world:

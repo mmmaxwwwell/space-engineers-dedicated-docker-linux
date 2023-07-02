@@ -1,7 +1,6 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 WORKDIR /root
 RUN mkdir /scripts
-RUN printf '%s\n' 'nameserver 1.1.1.1' 'nameserver 8.8.8.8' > /etc/resolv.conf
 RUN \
   dpkg --add-architecture i386 &&\
   apt-get update &&\
