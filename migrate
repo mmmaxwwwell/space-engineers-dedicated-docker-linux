@@ -2,11 +2,21 @@
 eval "`./settings.env.sh`"
 
 #migrate from appdata to volume mounts
+echo ""
+echo "This script is a tool to help migrate user data from v1 to v2 of this docker container."
+echo "v1 holds all the game files in the ./appdata folder. v2 uses docker volume mounts."
+echo "This script will take your current world in ./appdata, create a backup in ./backup-data, and load the world into the new volume mounts."
+echo "Running this script will stop the server."
+echo "This script should not destroy any data, but make a backup of the ./appdata folder before proceeding."
+echo "Press enter to continue, or ctrl-c to exit."
+read
 
 if $DOCKER_COMMAND volume ls | grep $WORLD_VOLUME_NAME > /dev/null; then
     echo "Found existing world volume $WORLD_VOLUME_NAME. I don't want to destroy your world, exiting."
     exit 2
 fi
+
+$DOCKER_COMMAND-compose down
 
 $DOCKER_COMMAND volume create $WORLD_VOLUME_NAME
 $DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME -v ./appdata/space-engineers/config:/input alpine cp /input/SpaceEngineers-Dedicated.cfg /$WORLD_VOLUME_NAME
