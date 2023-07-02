@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+eval "`./settings.env.sh`"
+
+#pack volumes folder into volume mounts
+
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME -v ./volumes:/input alpine rm -rf /$WORLD_VOLUME_NAME/*
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME -v ./volumes:/input alpine cp /input/SpaceEngineers-Dedicated.cfg /$WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME -v ./volumes:/input alpine cp -r /input/World /$WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME alpine chown -R 1000:1000 /$WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/$WORLD_VOLUME_NAME alpine tree /$WORLD_VOLUME_NAME
+
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME -v ./volumes:/input alpine rm -rf /$PLUGINS_VOLUME_NAME/*
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME -v ./volumes:/input alpine cp -r /input/Plugins/. /$PLUGINS_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME alpine chown -R 1000:1000 /$PLUGINS_VOLUME_NAME

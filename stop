@@ -1,2 +1,4 @@
-#/bin/bash
-docker-compose stop
+#!/usr/bin/env bash
+source `$(settings.env.sh)`
+
+$DOCKER_COMMAND-compose stop

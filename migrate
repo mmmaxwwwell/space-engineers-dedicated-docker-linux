@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+eval "`./settings.env.sh`"
+
+#migrate from appdata to volume mounts
+
+if $DOCKER_COMMAND volume ls | grep $WORLD_VOLUME_NAME > /dev/null; then
+    echo "Found existing world volume $WORLD_VOLUME_NAME. I don't want to destroy your world, exiting."
+    exit 2
+fi
+
+$DOCKER_COMMAND volume create $WORLD_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output -v ./appdata/space-engineers/config:/input alpine cp /input/SpaceEngineers-Dedicated.cfg /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output -v ./appdata/space-engineers/config:/input alpine cp -r /input/World /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output alpine chown -R 1000:1000 /output
+
+$DOCKER_COMMAND volume create $PLUGINS_VOLUME_NAME
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/output -v ./appdata/space-engineers/config:/input alpine cp -r /input/Plugins /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/output alpine chown -R 1000:1000 /output

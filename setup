@@ -1,16 +1,5 @@
 #!/usr/bin/env sh
-WORLD_VOLUME_NAME=space-engineers-dedicated-docker-linux_world
-
-if which podman > /dev/null; then
-    DOCKER_COMMAND=podman
-    #echo "found podman installed, using podman"
-elif which docker > /dev/null; then
-    #echo "found docker installed, using docker"
-    DOCKER_COMMAND=docker
-else
-    echo "Podman or docker not found, exiting"
-    exit 1
-fi
+eval "`./settings.env.sh`"
 
 if $DOCKER_COMMAND volume ls | grep $WORLD_VOLUME_NAME > /dev/null; then
     echo "Found existing world volume $WORLD_VOLUME_NAME. I don't want to destroy your world, exiting."
@@ -21,5 +10,6 @@ fi
 
 
 $DOCKER_COMMAND volume create $WORLD_VOLUME_NAME
+$DOCKER_COMMAND volume create $PLUGINS_VOLUME_NAME
 $DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/world -v ./star-system.zip:/star-system.zip alpine unzip -n /star-system.zip -d world
 $DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/world alpine chown -R 1000:1000 /world
