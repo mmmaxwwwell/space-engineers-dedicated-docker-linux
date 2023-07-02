@@ -1,34 +1,30 @@
 # [mmmaxwwwell/space-engineers-dedicated-docker-linux](https://github.com/mmmaxwwwell/space-engineers-dedicated-docker-linux)
 
-All of the space engineers dedicated server on wine containers I found wouldn't build, and I embarked on a journey to create my own.
-
 ## Features:
-* Wine 6
-* Debian Buster
-* Installs default star system world on first run
+* Wine 8
+* Debian Bullseye slim
 * Automatically updates ```<LoadWorld>``` element in ```SpaceEngineers-Dedicated.cfg```
 * Supports plugins.
 * Image built and [available on dockerhub](https://hub.docker.com/r/mmmaxwwwell/space-engineers-dedicated-docker-linux)
-* Easy to implement offsite backups, just copy everything in ```./appdata/space-engineers/config``` with your favorite backup tool.
-* Reduced container size (~4gb decompressed).
+* Easy to backup world data, just run ./backup, and a zip will be created in ./backup-data
 
 Thank you to:
 * [7thCore](https://github.com/7thCore) for [7thCore/sesrv-script](https://github.com/7thCore/sesrv-script)
 * [Devidian](https://github.com/Devidian) for advancing the docker implementation to a working state!
-* @Inflex for 
 * @Tsu, @Aedis, @ebbit, @data, @ReAn, @BloodyIron, @spawnAjak for all around helping when testing and getting this started
 * [@UseAfterFreee](https://github.com/UseAfterFreee), [@woeisme](https:/github.com/woeisme), [@kennethx](https://github.com/kennethx), [@MarkL4YG](https://github.com/MarkL4YG), [@BaIthamel](https://github.com/BaIthamel), [@Tetrino](https://github.com/Tetrino), [@Teacay1](https://github.com/Teacay1), [@Fischchen](https://github.com/Fischchen), [@whodat](https://github.com/whodat), [@msansen](https://github.com/msansen), [@IndexOutOfMJ](https://github.com/IndexOutOfMJ) for opening issues or contributing to an issue conversation that improved the repo.
 
 ## Prerequisites:
-* docker
-* docker-compose (recommended, not required to run container)
+* docker or podman
+* docker-compose or podman-compose (recommended, not required to run container)
 * unzip
+* zip
 
 ## Tips:
-* You can copy the entire contents of ./appdata/space-engineers/config to make a backup, including the SpaceEngineers-Dedicated.cfg file.
+* When migrating from v1 to v2, run the ./migrate script.
+* If starting from scratch, use the ./setup script to create a default world. Then run ./start, and verify you can connect. Once the server comes up and you have verified you can connect, stop the server and run ./unpack. This will move all user configurable world files to the ./volumes folder. From there you can adjust any settings in the SpaceEngineers-Dedicated.cfg or replace the world files. Once complete, run ./pack to put the files back into the volume mounts so the server will pick up your world.
 * The ```./start``` script will start the server using docker-compose in detached mode, and then attaches to the log output. You can press <kbd>ctrl</kbd>+<kbd>c</kbd> to detach from the logs and keep the server running.
-* If you are running plugins, the first time your run this, check your SpaceEngineers-Dedicated.cfg file for the Plugins element. If it spans multiple lines, you must replace it with ```<Plugins />```, exactly like that. The server will query ./appdata/space-engineers/config/Plugins and update the config file as needed from then on.
-* If you start the docker container without placing SpaceEngineers-Dedicated.cfg in the correct location, docker will create an empty folder where it should be. The container won't run until you stop the container, delete the empty SpaceEngineers-Dedicated.cfg folder, and replace it with the actual file.
+* If you are running plugins, the first time your run this, check your SpaceEngineers-Dedicated.cfg file for the Plugins element. If it spans multiple lines, you must replace it with ```<Plugins />```, exactly like that. The server will automatially enumerate the plugins directory and update the config file as needed.
 
 ## Usage:
 
@@ -56,32 +52,3 @@ docker run --restart always -p "27016:27016/udp" \
 | 129 | Container is missing /appdata/space-engineers/World folder, volume mounts are mounted incorrectly. |
 | 130 | Container is missing /appdata/space-engineers/World/Sandbox.sbc, World is not placed in the right folder, or the volume mounts are mounted incorrectly. Ensure your world is in ```./appdata/space-engineers/config/World/```.|
 | 131 | Container is missing the dedicated server config file SpaceEngineers-Dedicated.cfg. Ensure that you have placed SpaceEngineers-Dedicated.cfg at ```./appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg```. |
-
-## Directory Structure:
-```
-SpaceEngineersDedicated contains the dedicated server files
-steamcmd contains steamcmd
-config contains all the user configurable files for the game instance
-World contains the world files
-
-appdata
-└── space-engineers
-    ├── bins
-    │   ├── SpaceEngineersDedicated 
-    │   └── steamcmd 
-    └── config 
-        ├── SpaceEngineers-Dedicated.cfg
-        └── World
-            ├── Alien-291759539d120000.vx2
-            ├── EarthLike-1779144428d120000.vx2
-            ├── Europa-595048092d19000.vx2
-            ├── Mars-2044023682d120000.vx2
-            ├── Moon-1353915701d19000.vx2
-            ├── SANDBOX_0_0_0_.sbs
-            ├── Sandbox.sbc
-            ├── Sandbox_config.sbc
-            ├── Titan-2124704365d19000.vx2
-            ├── Triton-12345d80253.vx2
-            └── thumb.jpg
-
-```

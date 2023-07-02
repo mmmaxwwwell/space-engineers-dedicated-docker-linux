@@ -3,7 +3,7 @@ eval "`./settings.env.sh`"
 
 #unpack docker backup-workdir to disk for editing
 
-$DOCKER_COMMAND-compose down
+# $DOCKER_COMMAND-compose down
 
 mkdir -p backup-data
 mkdir -p backup-workdir/World
