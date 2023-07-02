@@ -9,7 +9,7 @@ mkdir -p volumes/World
 rm -rf volumes/World/*
 mkdir -p volumes/Plugins
 rm -rf volumes/Plugins/*
-mkdir -p backup
+mkdir -p backup-data
 
 $DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/input -v ./volumes:/output alpine cp /input/SpaceEngineers-Dedicated.cfg /output
 $DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/input -v ./volumes:/output alpine cp -r /input/World /output
@@ -22,13 +22,13 @@ ZIP_FILENAME=$(date +%s)-space-engineers.zip
 
 cd volumes
 echo "Creating backup of world config..."
-zip -r ../backup/$ZIP_FILENAME * 
+zip -r ../backup-data/$ZIP_FILENAME * 
 echo "Backup complete"
 cd ..
 
 echo ""
 echo "Backup result:"
-unzip -l backup/$ZIP_FILENAME
+unzip -l backup-data/$ZIP_FILENAME
 
 echo ""
-echo "Backup size: $(ls -ldth backup/$ZIP_FILENAME | awk '{print $5}')"
+echo "Backup size: $(ls -ldth backup-data/$ZIP_FILENAME | awk '{print $5}')"

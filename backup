@@ -1,0 +1,37 @@
+#!/usr/bin/env sh
+eval "`./settings.env.sh`"
+
+#unpack docker backup-workdir to disk for editing
+
+$DOCKER_COMMAND-compose down
+
+mkdir -p backup-data
+mkdir -p backup-workdir/World
+rm -rf backup-workdir/World/*
+mkdir -p backup-workdir/Plugins
+rm -rf backup-workdir/Plugins/*
+
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/input -v ./backup-workdir:/output alpine cp /input/SpaceEngineers-Dedicated.cfg /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/input -v ./backup-workdir:/output alpine cp -r /input/World /output
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $WORLD_VOLUME_NAME:/output alpine chown -R 1000:1000 /output
+
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME -v ./backup-workdir:/output alpine cp -r /$PLUGINS_VOLUME_NAME/. /output/Plugins
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME -v ./backup-workdir:/output alpine chown -R 1000:1000 /output/*
+$DOCKER_COMMAND run --rm --name space-engineers-dedicated-docker-linux-setup -v $PLUGINS_VOLUME_NAME:/$PLUGINS_VOLUME_NAME -v ./backup-workdir:/output alpine chmod -R 777 /output/*
+
+ZIP_FILENAME=$(date +%s)-space-engineers.zip
+
+cd backup-workdir
+echo "Creating backup of world config..."
+zip -r ../backup-data/$ZIP_FILENAME * 
+echo "Backup complete"
+cd ..
+
+echo ""
+echo "Backup result:"
+unzip -l backup-data/$ZIP_FILENAME
+
+echo ""
+echo "Backup size: $(ls -ldth backup-data/$ZIP_FILENAME | awk '{print $5}')"
+
+rm -rf backup-workdir
