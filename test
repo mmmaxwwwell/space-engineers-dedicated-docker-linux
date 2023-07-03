@@ -1,9 +1,15 @@
 #!/usr/bin/env sh
-podman run --rm -it --name=space-engineers-dedicated-docker-linux \
+podman build -t space-engineers-dedicated-docker-linux . 
+
+./pack
+
+podman run \
+  --rm \
+  -it \
   -v space-engineers-dedicated-docker-linux_world:/appdata/space-engineers/World \
   -v space-engineers-dedicated-docker-linux_plugins:/appdata/space-engineers/Plugins \
   -v space-engineers-dedicated-docker-linux_bins:/appdata/space-engineers/SpaceEngineersDedicated \
   -v space-engineers-dedicated-docker-linux_steamcmd:/home/wine \
   --network host \
   --ulimit nofile=20000:40000 \
-  space-engineers-dedicated-docker-linux_se-server
+  space-engineers-dedicated-docker-linux
