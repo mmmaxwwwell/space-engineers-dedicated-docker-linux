@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
+
+rm -rf volumes/Plugins/*; cp /home/max/git/space-engineers-ds-plugin/SEScriptUploaderPlugin/ScriptUploaderPlugin/bin/Release/ScriptUploaderPlugin.* volumes/Plugins/  
+
 podman build -t space-engineers-dedicated-docker-linux . 
 
 ./pack
