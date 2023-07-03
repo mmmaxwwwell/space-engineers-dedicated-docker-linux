@@ -1,9 +1,9 @@
-#!/bin/bash
-#docker run -it --rm --entrypoint /bin/bash -p "27016:27016/udp" \
-docker run -p "27016:27016/udp" \
-  -v $(pwd)/appdata/space-engineers/config/World:/appdata/space-engineers/World\
-  -v $(pwd)/appdata/space-engineers/config/Plugins:/appdata/space-engineers/Plugins\
-  -v $(pwd)/appdata/space-engineers/bins/SpaceEngineersDedicated:/appdata/space-engineers/SpaceEngineersDedicated\
-  -v $(pwd)/appdata/space-engineers/bins/steamcmd:/home/se/.steam\
-  -v $(pwd)/appdata/space-engineers/config/SpaceEngineers-Dedicated.cfg:/appdata/space-engineers/SpaceEngineersDedicated/SpaceEngineers-Dedicated.cfg\
-  mmmaxwwwell/space-engineers-dedicated-docker-linux:wine6-plugins
+#!/usr/bin/env sh
+podman run --rm -it --name=space-engineers-dedicated-docker-linux \
+  -v space-engineers-dedicated-docker-linux_world:/appdata/space-engineers/World \
+  -v space-engineers-dedicated-docker-linux_plugins:/appdata/space-engineers/Plugins \
+  -v space-engineers-dedicated-docker-linux_bins:/appdata/space-engineers/SpaceEngineersDedicated \
+  -v space-engineers-dedicated-docker-linux_steamcmd:/home/wine \
+  --network host \
+  --ulimit nofile=20000:40000 \
+  space-engineers-dedicated-docker-linux_se-server
