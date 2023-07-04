@@ -23,6 +23,8 @@ else
   cat /appdata/space-engineers/World/SpaceEngineers-Dedicated.cfg
 fi
 
+tree /appdata/space-engineers/Plugins
+tree /appdata/space-engineers/World
 
 chown -R 1000:1000 /appdata
 

@@ -24,7 +24,7 @@ RUN \
   echo steam steam/question select "I AGREE" | debconf-set-selections &&\
   curl -L http://ftp.us.debian.org/debian/pool/non-free/s/steamcmd/steamcmd_0~20180105-4_i386.deb > steamcmd_0~20180105-4_i386.deb &&\
   dpkg -i steamcmd_0~20180105-4_i386.deb &&\
-  apt install xvfb cabextract unzip -y &&\
+  apt install tree xvfb cabextract unzip -y &&\
   apt purge software-properties-common gnupg2 python* -y &&\
   apt autoclean &&\
   apt autoremove -y
