@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-source `$(settings.env.sh)`
+eval "`./settings.env.sh`"
 
 $DOCKER_COMMAND-compose stop

@@ -6,8 +6,8 @@ services:
       nofile:
         soft: 20000
         hard: 40000
-    # image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest
-    build: .
+    image: mmmaxwwwell/space-engineers-dedicated-docker-linux:latest
+    # build: .
     container_name: space-engineers-dedicated-docker-linux
     restart: unless-stopped
     volumes:
